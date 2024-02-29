@@ -1,0 +1,57 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from scipy.stats import ttest_ind, f_oneway, chi2_contingencyurl='https://d2beiqkhq929f0.cloudfront.net/public_assets/assets/000/001/428/original/bike_shadf=pd.read_csv(url)
+df.head()
+df.columns
+# Initial exploration
+print(df.info())
+print(df.head())
+# Check for missing values
+print(df.isnull().sum())
+# Convert categorical variables to 'category' type
+df['season'] = df['season'].astype('category')
+df['holiday'] = df['holiday'].astype('category')
+df['workingday'] = df['workingday'].astype('category')
+df['weather'] = df['weather'].astype('category')
+# Univariate Analysis
+# Distribution plots for continuous variables
+plt.figure(figsize=(15, 8))
+sns.histplot(df['count'], kde=True)
+plt.title('Distribution of Count')
+plt.show()
+# Bar plots for categorical variables
+plt.figure(figsize=(15, 8))
+sns.countplot(x='season', data=df)
+plt.title('Count of Cycles Rented in Different Seasons')
+plt.show()
+# Bivariate Analysis
+# Relationship between workingday and count
+plt.figure(figsize=(15, 8))
+sns.boxplot(x='workingday', y='count', data=df)
+plt.title('Working Day vs Count')
+plt.show()
+# Relationship between season and count
+plt.figure(figsize=(15, 8))
+sns.boxplot(x='season', y='count', data=df)
+plt.title('Season vs Count')
+plt.show()
+# Relationship between weather and count
+plt.figure(figsize=(15, 8))
+sns.boxplot(x='weather', y='count', data=df)
+plt.title('Weather vs Count')
+plt.show()
+# Hypothesis Testing
+# 2-Sample T-Test for workingday and count
+workingday_yes = df[df['workingday'] == 1]['count']
+workingday_no = df[df['workingday'] == 0]['count']
+t_stat, p_value = ttest_ind(workingday_yes, workingday_no)
+print(f"2-Sample T-Test p-value: {p_value}")
+# ANOVA for weather and count, season and count
+weather_groups = [df['count'][df['weather'] == i] for i in df['weather'].unique()]f_stat_weather, p_value_weather = f_oneway(*weather_groups)
+print(f"ANOVA for Weather vs Count p-value: {p_value_weather}")season_groups = [df['count'][df['season'] == i] for i in df['season'].unique()]f_stat_season, p_value_season = f_oneway(*season_groups)
+print(f"ANOVA for Season vs Count p-value: {p_value_season}")# Chi-square test for weather and season dependency
+contingency_table = pd.crosstab(df['weather'], df['season'])
+chi2_stat, p_value_chi2, _, _ = chi2_contingency(contingency_table)print(f"Chi-square test p-value: {p_value_chi2}")
+Hypothesis_Case file:///C:/Users/pawan.rajput/Desktop/Hypothesis_Case.html6 of 6 2/2/2024, 5:26 PM
